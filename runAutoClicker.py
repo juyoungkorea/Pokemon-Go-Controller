@@ -1,20 +1,23 @@
 import os
-import urllib2
+from urllib.request import urlopen
 import json
+import codecs
 import time
 
 def checkConnected():
 	try:
-		response = urllib2.urlopen("http://172.16.255.195/", timeout = 1)
-		return json.load(response)
-	except urllib2.URLError as e:
-		print e.reason
+		response = urlopen("http://Project-L2L-iPhone6.local/", timeout = 1)
+		reader = codecs.getreader('utf-8')
+		return json.load(reader(response))
+	except:
+		pass
+	
 
 def clickAction():
-	os.system("./autoClicker -x 750 -y 400")
-	os.system("./autoClicker -x 750 -y 450")
+	os.system("./autoClicker -x 600 -y 1050")
+	os.system("./autoClicker -x 600 -y 1100")
 	time.sleep(1)
-	print "clicking!!"
+	print ("clicking!!")
 
 def start():
 	while True:

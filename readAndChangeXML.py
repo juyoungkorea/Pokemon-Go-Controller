@@ -1,5 +1,6 @@
 import xml.etree.cElementTree as ET
-import urllib2
+from urllib.request import urlopen
+import codecs
 import json
 
 lastLat = ""
@@ -7,10 +8,12 @@ lastLng = ""
 
 def getPokemonLocation():
 	try:
-		response = urllib2.urlopen("http://172.16.255.195/", timeout = 1)
-		return json.load(response)
-	except urllib2.URLError as e:
-		print e.reason
+		response = urlopen("http://Project-L2L-iPhone6.local/", timeout = 1)
+		reader = codecs.getreader('utf-8')
+		return json.load(reader(response))
+	except:
+		pass
+	
 
 def generateXML():
 	global lastLat, lastLng
@@ -23,7 +26,7 @@ def generateXML():
 			wpt = ET.SubElement(gpx, "wpt", lat=geo["lat"], lon=geo["lng"])
 			ET.SubElement(wpt, "name").text = "PokemonLocation"
 			ET.ElementTree(gpx).write("pokemonLocation.gpx")
-			print "Location Updated!", "latitude:", geo["lat"], "longitude:" ,geo["lng"]
+			print ("Location Updated!", "latitude:", geo["lat"], "longitude:" ,geo["lng"])
 
 def start():
 	while True:
